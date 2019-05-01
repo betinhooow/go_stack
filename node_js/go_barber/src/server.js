@@ -18,11 +18,12 @@ class App {
     this.express.use(express.urlencoded({ extended: false }))
     this.express.use(
       session({
-        store: new LokiStore({
-          path: path.resolve(__dirname, '..', 'tmp', 'session.db')
-        }),
+        name: 'root',
         secret: 'MyAppSecret',
         resave: false,
+        store: new LokiStore({
+          path: path.resolve(__dirname, '..', 'tmp', 'sessions')
+        }),
         saveUninitialized: true
       })
     )

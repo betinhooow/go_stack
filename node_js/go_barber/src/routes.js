@@ -19,6 +19,8 @@ routes.post('/signup', uploud.single('avatar'), UserController.store)
 // saying that all /app routes needs to hav a session to get access
 routes.use('/app', authMiddleware)
 
+routes.get('/logout', SessionController.destroy)
+
 routes.get('/app/dashboard', (req, res) => {
   console.log(req.session.user)
   return res.render('dashboard')
