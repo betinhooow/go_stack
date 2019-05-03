@@ -17,7 +17,7 @@ class App {
 
   middlewares () {
     this.express.use(express.urlencoded({ extended: false }))
-    this.express.use(flash)
+    this.express.use(flash())
     this.express.use(
       session({
         name: 'root',
