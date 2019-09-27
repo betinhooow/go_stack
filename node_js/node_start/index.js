@@ -1,30 +1,44 @@
 const express = require('express')
-const nunjucks = require('nunjucks')
 
-const app = express()
+const server = express();
 
-nunjucks.configure('views', {
-  autoescape: true,
-  express: app,
-  watch: true
-})
+server.use(express.json());
 
-app.use(express.urlencoded({ extended: false }))
-app.set('view engine', 'njk')
+server.use((req, res, next) => {
+  next();
+});
 
-const users = ['Betinho', 'Jhesus', 'Xandon', 'Cirquqira']
+const users = ["Roberto", "Maria", "Felipe", "Gabriel"];
 
-app.get('/', (req, res) => {
-  res.render('list', { users })
-})
+server.get('/user', (req, res) => {
+  return res.json(users)
+});
 
-app.get('/new', (req, res) => {
-  res.render('new')
-})
+server.get('/user/:id', (req, res) => {
+  const { id } = req.params;
 
-app.post('/create', (req, res) => {
-  users.push(req.body.user)
-  return res.redirect('/')
-})
+  return res.json(users[id]);
+});
 
-app.listen(3000)
+server.post('/user', (req, res) => {
+  const { name } = req.body;
+  users.push(name);
+
+  return res.json(req.body);
+});
+
+server.put('/user/:id', (req, res) => {
+  const { id } = req.params;
+  users[id] = req.body.name;
+
+  return res.json(users[id]); 
+});
+
+server.delete('/user/:id', (req, res) => {
+  const { id } = req.params;
+  users.splice(id, 1);
+
+  return res.send;
+});
+
+server.listen(3000)
